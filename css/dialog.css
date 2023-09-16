@@ -1,0 +1,54 @@
+
+.dialog-header {
+  background-color: black;
+  color: white;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  font-size: 15px;
+}
+
+.dialog-contents {
+  padding: 10px;
+}
+
+div#dialog-container {
+}
+
+iframe#dialog-container {
+    background: none repeat scroll 0 0 white;
+    border: 0 none;
+    height: 94%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+a.closeDOMWindow {
+  float: right;
+  text-decoration: none;
+  /*color: white;*/
+  /*color: black;*/
+    -moz-border-radius: 12px;  
+    -webkit-border-radius: 12px;  
+    border-radius: 12px;  
+    
+  font-size: 10px;
+}
+
+a.closeDOMWindow:link, a.closeDOMWindow:visited, a.closeDOMWindow:hover, 
+	a.closeDOMWindow:active {
+  /*color: white;*/
+  /*color: black;*/
+}
+
+a.closeDOMWindow:active {
+    font-size: 8px;
+}
+
+div#dialog-contents {
+  background: white;
+  overflow: auto;
+}
+
+

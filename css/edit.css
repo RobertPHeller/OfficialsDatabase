@@ -1,0 +1,174 @@
+/**
+ * Styles for the edit node page boo
+ */
+
+#edit .required {
+	background-color: #FFE4AF;
+}
+
+#edit .readonly {
+	border: 0;
+}
+
+#edit .invalid {
+	color: red;
+	font-weight: bold;
+}
+
+#edit input.invalid {
+	border-color: red;
+}
+
+#edit fieldset {
+	border: 1px solid #ccc;
+	padding: 5px;
+}
+
+#edit fieldset.actions {
+	border: 0;
+	padding: 5px;
+	text-align: right;
+}
+
+#edit legend {
+	font-weight: bold;
+	padding: 0 5px 0 5px;
+}
+
+#edit .combobox,
+#edit .calbox,
+#edit .inputbox {
+	border: 1px solid #ccc;
+}
+
+#edit .button {
+	border: 1px solid #ccc;
+}
+
+#edit fieldset label {
+	line-height: 1.8;
+	vertical-align: top;
+	width: 120px; /* Width of labels */
+	/*display: inline-block;*/
+	/*display: -moz-inline-box;*/ /* Fixes Firefox */
+}
+#edit fieldset ol {
+	margin: 0;
+	padding: 0;
+}
+#edit fieldset li {
+	list-style: none;
+	padding: 5px;
+	margin: 0;
+}
+
+#edit fieldset span.help {
+	font-size: 85%;
+	color: #c96;
+	margin-left: 16em;
+	padding: 0 0 0 3px;
+	border-left: 1px solid #c96;
+	display: block;
+}
+
+/*
+#edit table {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#edit table td.key {
+	width: 20%;
+}
+*/
+
+/* tabs */
+
+dl.tabs {
+	float: left;
+	margin: 10px 0 -1px 0;
+	z-index: 50;
+}
+
+dl.tabs dt {
+	float: left;
+	padding: 4px 10px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin-left: 3px;
+	background: #f0f0f0;
+	color: #666;
+}
+
+dl.tabs dt.open {
+	background: #F9F9F9;
+	border-bottom: 1px solid #F9F9F9;
+	z-index: 100;
+	color: #000;
+}
+
+div.current {
+	clear: both;
+	border: 1px solid #ccc;
+	padding: 10px 10px;
+}
+
+div.current dd {
+	padding: 0;
+	margin: 0;
+}
+
+/* Tooltips */
+
+.tool-tip {
+	float: left;
+	background: #ffc;
+	border: 1px solid #D4D5AA;
+	padding: 5px;
+	max-width: 200px;
+	z-index: 50;
+}
+
+.tool-title {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	font-weight: bold;
+	margin-top: -15px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background: url(../images/selector-arrow.png) no-repeat;
+}
+
+.tool-text {
+	font-size: 100%;
+	margin: 0;
+}
+
+/* General */
+
+.clr {
+	clear: both;
+}
+
+.clearfix:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.clearfix {
+    display:inline-block;
+}
+.clearfix {
+    display:block;
+}
+* html .clearfix {
+    height:1px;
+}
+

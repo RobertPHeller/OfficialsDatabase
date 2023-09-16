@@ -30,11 +30,15 @@ class PasswordHash {
 	var $portable_hashes;
 	var $random_state;
 
-	function PasswordHash($iteration_count_log2, $portable_hashes)
+	function __construct($iteration_count_log2, $portable_hashes)
 	{
 		$this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
-		if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
+		//for ($ii=0;$ii < strlen($this->itoa64);$ii++)
+                //{
+                //  file_put_contents("php://stderr","*** PasswordHash::__construct(): ii = $ii, this->itoa64[$ii] is ".$this->itoa64[$ii]."\n");
+                //}
+                if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
 			$iteration_count_log2 = 8;
 		$this->iteration_count_log2 = $iteration_count_log2;
 
@@ -72,20 +76,17 @@ class PasswordHash {
 	{
 		$output = '';
 		$i = 0;
-		do {
-			$value = ord($input[$i++]);
-			$output .= $this->itoa64[$value & 0x3f];
-			if ($i < $count)
-				$value |= ord($input[$i]) << 8;
-			$output .= $this->itoa64[($value >> 6) & 0x3f];
-			if ($i++ >= $count)
-				break;
-			if ($i < $count)
-				$value |= ord($input[$i]) << 16;
-			$output .= $this->itoa64[($value >> 12) & 0x3f];
-			if ($i++ >= $count)
-				break;
-			$output .= $this->itoa64[($value >> 18) & 0x3f];
+                do {
+                  $value = ord($input[$i++]);
+                  //file_put_contents("php://stderr","*** PasswordHash::encode64(): value is $value\n");
+                  $output .= $this->itoa64[$value & 0x3f];
+                  if ($i < $count) $value |= ord($input[$i]) << 8;
+                  $output .= $this->itoa64[($value >> 6) & 0x3f];
+                  if ($i++ >= $count) break;
+                  if ($i < $count) $value |= ord($input[$i]) << 16;
+                  $output .= $this->itoa64[($value >> 12) & 0x3f];
+                  if ($i++ >= $count) break;
+                  $output .= $this->itoa64[($value >> 18) & 0x3f];
 		} while ($i < $count);
 
 		return $output;

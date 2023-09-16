@@ -12,18 +12,16 @@ class Officials_User {
   static function validate($screenname, $password)
   {
      global $officials_database;
-     $qr = $officials_database->queryMySQL("SELECT id, password, access, origx, origy FROM users where screenname = '$screenname'");
+     $qr = $officials_database->queryMySQL("SELECT id, password, access FROM users where screenname = '$screenname'");
      if ($qr->num_rows == 0) {return -1;}
      $result = $qr->fetch_object();
      $qr->free();
-     file_put_contents("php://stderr","*** Officials_User::validate: result is ".print_r($result,true)."\n");
+     //file_put_contents("php://stderr","*** Officials_User::validate: result is ".print_r($result,true)."\n");
      if (Officials_User::CheckPassword($password,$result->password)) {
 	$_SESSION['screenname'] = $screenname;
 	$_SESSION['userid'] = $result->id;
 	$_SESSION['access'] = $result->access;
-	$_SESSION['locx']   = $result->origx;
-	$_SESSION['locy']   = $result->origy;
-        file_put_contents("php://stderr","*** Officials_User::validate: _SESSION is ".print_r($_SESSION,true)."\n");
+        //file_put_contents("php://stderr","*** Officials_User::validate: _SESSION is ".print_r($_SESSION,true)."\n");
 	return $result->id;
      } else {
 	return -2;
@@ -59,7 +57,7 @@ class Officials_User {
   }
   static function find_users_by_screenname($pattern)
   {
-    file_put_contents("php://stderr","*** Officials_User::find_users_by_screenname('$pattern')\n");
+    //file_put_contents("php://stderr","*** Officials_User::find_users_by_screenname('$pattern')\n");
     global $officials_database;
     $qr = $officials_database->queryMySQL(
 		"SELECT id FROM users where screenname LIKE '".
@@ -200,7 +198,7 @@ class Officials_User {
     $q .= "'".$officials_database->sanitizeStringNoTagsHE($userobj->screenname)."',";
     $q .= "'".$hash."',";
     $q .= "'".$officials_database->sanitizeStringNoTagsHE($userobj->fullname)."',";
-    $q .= "'".$officials_database->sanitizeStringNoTagsHE($userobj->email).')';
+    $q .= "'".$officials_database->sanitizeStringNoTagsHE($userobj->email)."')";
     $qr = $officials_database->queryMySQL($q);
     $newuserid = $officials_database->db->insert_id;
     //$qr->free();

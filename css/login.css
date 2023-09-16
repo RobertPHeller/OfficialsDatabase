@@ -1,0 +1,25 @@
+/* Login CSS */
+
+div#register {
+  width: 50%;
+  float: left;
+}
+
+div#login {
+  width: 50%;
+  float: right;
+}
+
+table.loginformtable {
+}
+
+table.loginformtable th {
+  text-align: right;
+}
+
+table.loginformtable td {
+}
+
+input.loginbutton {
+  float: right;
+}

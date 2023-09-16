@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Fri Sep 15 16:05:52 2023
- *  Last Modified : <230915.2106>
+ *  Last Modified : <230916.1023>
  *
  *  Description	
  *
@@ -53,10 +53,10 @@ if (!Officials_User::is_logged_in()) {
 }
 
 require_once(INCPATH . 'officials-head.php' );?>
-<body <?php officals_body_class(); ?> >
-<?php officals_page_top(); ?>
-<?php officals_navigation_bar(); ?>
+<body <?php officials_body_class(); ?> >
+<?php officials_page_top(); ?>
+<?php officials_navigation_bar(); ?>
 <?php
 ?>
-<?php officals_footer(); ?>
+<?php officials_footer(); ?>
 </body></html>

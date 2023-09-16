@@ -1,0 +1,220 @@
+/* Map CSS */
+
+div#map {
+  width: 50%;
+  float: left;
+  padding-right: 20px;
+}
+
+div#mapnav {
+  width: 45%;
+  float: right;
+  padding: 0px 14px;
+}
+
+
+
+div#maptable {
+  position: relative;
+  display: table;
+  padding: 20px;
+  margin: 0px;
+  border: 0px;
+}
+
+span.map_oddrow {
+  display: block;
+  left: 21px;
+  height: 35px;
+  z-index: 1;
+  position: relative;
+  width: 462px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+span.map_evenrow {
+  display: block;
+  left: 0px;
+  z-index: 2;
+  position: relative; 
+  height: 35px;
+  width: 504px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+span.map_sector {
+  overflow: visible;
+  position: relative;
+  width: 42px;
+  height: 35px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+form.map_navigation_form {
+  display: inline;
+}
+
+span.map_sector img, input.mapnav {
+  overflow: visible;
+  padding: 0px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+span.map_center img {
+  opacity: 0.65;
+}
+
+div#mapnavtable {
+  position: relative;
+  display: table;
+  padding: 20px;
+  margin: 0px;
+  border: 0px;
+}
+
+
+
+span.mapnav_oddrow {
+  display: block;
+  left: 21px;
+  height: 35px;
+  z-index: 1;
+  position: relative;
+  width: 84px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+span.mapnav_evenrow {
+  display: block;
+  left: 0px;
+  z-index: 2;
+  position: relative; 
+  height: 35px;
+  width: 126px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+
+div#map_sector_properties {
+  border: 1px solid #aaa;
+  padding: 10px 10px;
+  margin-right: 10px;
+}
+
+
+ul.build_tabs {
+  font-size: 45%;
+  font-stretch: condensed;
+}
+
+div.map_build {
+  border: 1px solid #aaa;
+  padding: 10px 10px;
+  margin-right: 10px;
+}
+
+div#map_build {
+    margin-right: 10px;
+}
+
+div.sector-property-element {
+  display: table-row;
+}
+
+.sector-property-name {
+  display: table-cell;
+  vertical-align: top;
+  float: left;
+  width: 30%;
+}
+
+.sector-property-value {
+}
+
+div.map_sector_build {
+  display: table;
+}
+
+div.map_sector_build p {
+  display: table-row;
+}
+
+div.map_sector_build p label {
+  display: table-cell;
+  vertical-align: top;
+  width: 25%;
+}
+
+div.map_sector_build p input {
+  display: table-cell;
+  vertical-align: top;
+  width: 75%;
+}
+
+.build_button {
+  float: right;
+}
+
+div.map_sector_build p textarea {
+  width: 75%;
+}
+
+div.buildsector_offset {
+  display: table-cell;
+  vertical-align: top;
+  width: 75%;
+}
+
+div.map_build_forms {
+}
+
+div.updatable-div p textarea {
+    width: 50%;
+}
+
+#popup textarea {
+    display: table-cell;
+    vertical-align: top;
+    overflow:hidden;
+    resize: none;
+}
+
+#sidebar  textarea {
+    display: table-cell;
+    vertical-align: top;
+    overflow:hidden;
+    resize: none;
+}
+
+
+div.updatable-div {
+}
+
+
+div#edit-user-bio p textarea {
+    display: table-cell;
+    vertical-align: top;
+    width: 80%;
+    overflow:hidden;
+    resize: none;
+}
+
+div#send-email-form p textarea {
+    display: table-cell;
+    vertical-align: top;
+    overflow:hidden;
+    resize: none;
+}
+

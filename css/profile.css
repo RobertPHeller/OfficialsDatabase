@@ -1,0 +1,83 @@
+/* Profile CSS */
+div#profile {
+  padding: 20px;
+}
+
+div#profile_picture {
+  width: 150px;
+  float: left;
+  margin-left: 50px;
+}
+
+div#profile_info {
+  background-color: #dddddd;
+  border: 6px solid #eeeeee;
+  min-width: 700;
+  width: 55%;
+  float: left;
+}
+
+img.profile_picture {
+  border: 0px;
+}
+
+.profile_screenname {
+  padding: 4px;
+}
+
+span#edit-profile-image {
+  width: 150px;
+  float: left;
+  padding: 4px;
+}
+
+.profile_fullname {
+  padding: 4px;
+}
+
+.profile_bio {
+  padding: 4px;
+}
+
+div#profile_friends_and_requests {
+  float: right;
+  width: 150px;
+  margin-right: 50px;
+}
+
+.friend_header {
+  text-align: center;
+}
+
+ul.friendlist {
+  list-style-type:none;
+  list-style-image:none;
+  float:right;
+  margin:auto 20px auto auto;
+}
+
+ul.friendlist li {
+  display:inline;
+  float:left;
+  width:auto;
+  text-align:center;
+  margin-right:2px;
+  padding:3px 6px;
+  overflow:hidden;
+}
+
+ul.friendlist a {
+  text-decoration:none;
+}
+
+ul.friendlist img {
+  border: 0px;
+}
+
+a.make-request {
+}
+
+a.profile-edit {
+}
+
+

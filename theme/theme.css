@@ -1,0 +1,100 @@
+div#navigation_bar {
+    background-color: #add8e6;
+    /*margin:0 auto;*/
+    padding: 0;
+    border: 2px ridge #add8e6;
+    margin: 0px;
+}
+
+body.world {
+    margin: 0px;
+}
+
+
+/* Header */
+div.header {
+  font-weight: 600;
+  text-align:center;
+  align:center;
+  background-image: url(/theme/images/bannerTrees.png)
+  background-repeat: repeat-x;
+  background-position: 496 0;
+}
+
+#header {
+}
+#headerimg {
+font-family: helvetica, sans-serif;
+font-weight: bolder;
+/*margin:0 auto;*/
+/*width:100%;*/
+height: 106;
+color: white;
+background-color: #336633;
+font-size: 80%;
+background-image: url(/theme/images/bannerTrees.png);
+background-repeat: repeat-x;
+background-position: 496px 0;
+}
+table.header {
+background-image: url(/theme/images/bannerImage-2.png);
+background-repeat: no-repeat;
+height: 106;
+/*margin:0 auto;*/
+padding-left:5px;
+padding-right:5px;
+/*margin-left:5px;
+margin-right:5px;*/
+}
+tr.header {
+}
+td.header {
+font-family: helvetica, sans-serif;
+font-weight: bolder;
+/*padding:0;*/
+/*margin:0 auto;*/
+/*width:100%;*/
+color: white;
+/*background-color: #336633;*/
+font-size: 13px;
+padding-top: 0px;
+padding-bottom: 0px;
+margin-top: 0px;
+margin-bottom: 0px;
+}
+td.headerWhat {
+font-family: helvetica, sans-serif;
+font-weight: bolder;
+padding-left: 5px
+margin-left: 5px;
+padding-right: 5px;
+margin-right: 5px;
+/*padding:0;*/
+/*width:100%;*/
+color: white;
+line-height: 1.1;
+/*background-color: #336633;*/
+font-size: 80%;
+}
+
+
+
+p.whatText {
+  padding-bottom: 10px;
+  margin: 0;
+}
+
+img.headerDWS {
+    margin: 0;
+    padding-bottom: 2px;
+}
+
+input[type="text"], input[type="password"], textarea, .button {
+    background-image: -webkit-linear-gradient(top, #add8e6, #87a9b4 70%, #9f9f9f 100% );
+    background-image: -moz-linear-gradient(top, #add8e6, #87a9b4 70%, #9f9f9f 100% );
+    background-image: -ms-linear-gradient(top, #add8e6, #87a9b4 70%, #9f9f9f 100% );
+    background-image: -o-linear-gradient(top, #add8e6, #87a9b4 70%, #9f9f9f 100% );
+    background-image: linear-gradient(top, #add8e6, #87a9b4 70%, #9f9f9f 100% );
+    
+    background-color: #add8e6;
+}

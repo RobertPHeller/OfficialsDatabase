@@ -43,8 +43,6 @@ class Officials_Database {
   {
     if (isset($_POST[$var])) {
       $val = $_POST[$var];
-      if (get_magic_quotes_gpc())
-      $val = stripslashes($val);
       return $val;
     } else {
       return $default;

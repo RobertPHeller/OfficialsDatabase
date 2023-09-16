@@ -19,7 +19,7 @@
         if ($screenname == "" || $password == "") {
 	  $message = '<p class="error">Please enter a screenname and a password to login!</p><br clear="all" />'."\n";
 	} else {
-	  $userid = World_User::validate($screenname, $password);
+	  $userid = Officials_User::validate($screenname, $password);
 	  switch ($userid) {
 	    case -1:
 		$message = '<p class="error">No such user!</p><br clear="all" />'."\n";

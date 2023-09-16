@@ -8,8 +8,8 @@
  *  Date          : $Date$
  *  Author        : $Author$
  *  Created By    : Robert Heller
- *  Created       : Fri Sep 15 16:15:04 2023
- *  Last Modified : <230915.2114>
+ *  Created       : Fri Sep 15 20:55:26 2023
+ *  Last Modified : <230915.2056>
  *
  *  Description	
  *
@@ -41,33 +41,29 @@
  *
  ****************************************************************************/
 
-   /*
-    * Load officials codebase.
-    */
+/**
+  * Default settings
+  * Initial default contents for the site_settings table.  Messing with
+  * this file is totally optional.  All of the site settings can be 
+  * set or changed from the Admin pages and any missing or unset site 
+  * settings behave as if they were set to the empty string -- no errors
+  * will result from not having a site setting set.
+  */
 
-  define( 'ABSPATH', dirname(__FILE__) . '/' );
-  define( 'INCPATH', ABSPATH . 'includes/');
-  define( 'THEMEPATH', ABSPATH . 'theme/');
+global $default_settings;
+$default_settings = 
+array('SiteTitle' => 'My Town Officials');
+
+function officials_defaultsettings($database)
+{
+  global $default_settings;
   
-  if ( file_exists( ABSPATH . 'officials-config.php' ) ) {
-	require_once( ABSPATH . 'officials-config.php' );
-  } else {
-	// A config file doesn't exist!
-	require_once( INCPATH . 'die_no_config.php') ;
+  foreach ($default_settings as $name => $value) {
+    $q = 'INSERT INTO site_settings (name, value) VALUES (';
+    $q .= "'".$database->sanitizeString($name)."',";
+    $q .= "'".$database->sanitizeString($value)."')";
+    $database->queryMySQL($q);
   }
-  
-  define( 'THEMEURL', BASEURL .'theme/');
-
-  session_start();
-
-  require_once( INCPATH . 'common_functions.php' );
-  require_once( INCPATH . 'profile_functions.php' );
-  
-
-  require_once( INCPATH . 'page_top.php' );
-  require_once( INCPATH . 'navigation_bar.php' );
-  require_once( INCPATH . 'footer.php' );
-  require_once( INCPATH . 'registerlogin.php' );
-  
+}
 
 ?>

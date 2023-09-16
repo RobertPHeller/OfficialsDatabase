@@ -8,8 +8,8 @@
  *  Date          : $Date$
  *  Author        : $Author$
  *  Created By    : Robert Heller
- *  Created       : Fri Sep 15 16:15:04 2023
- *  Last Modified : <230915.2114>
+ *  Created       : Fri Sep 15 20:49:29 2023
+ *  Last Modified : <230915.2052>
  *
  *  Description	
  *
@@ -41,33 +41,36 @@
  *
  ****************************************************************************/
 
-   /*
-    * Load officials codebase.
-    */
+/**
+  * Admin user initialization.
+  *
+  */
 
-  define( 'ABSPATH', dirname(__FILE__) . '/' );
-  define( 'INCPATH', ABSPATH . 'includes/');
-  define( 'THEMEPATH', ABSPATH . 'theme/');
-  
-  if ( file_exists( ABSPATH . 'officials-config.php' ) ) {
-	require_once( ABSPATH . 'officials-config.php' );
-  } else {
-	// A config file doesn't exist!
-	require_once( INCPATH . 'die_no_config.php') ;
-  }
-  
-  define( 'THEMEURL', BASEURL .'theme/');
+global $admin_screenname, $admin_password, $admin_fullname, $admin_email;
 
-  session_start();
 
-  require_once( INCPATH . 'common_functions.php' );
-  require_once( INCPATH . 'profile_functions.php' );
-  
+/** Adminstrator credentials.
+  *  Change these to suit.
+  *  Obviously you will want a properly secure password!
+  *  (The password can be changed in the database from the admin profile 
+  *   page or the user list admin page.)
+  *  Right now, the admin E-Mail is not actually used for anything.
+  */
+$admin_screenname = 'admin';
+$admin_password   = 'admin';
+$admin_fullname   = 'God';
+$admin_email      = 'none@nowhere.net';
 
-  require_once( INCPATH . 'page_top.php' );
-  require_once( INCPATH . 'navigation_bar.php' );
-  require_once( INCPATH . 'footer.php' );
-  require_once( INCPATH . 'registerlogin.php' );
+function officials_adminuser($database)
+{
+  global $admin_screenname, $admin_password, $admin_fullname, $admin_email;
   
+  $adminuserid = Officials_User::create_new_user(
+                       (OBJECT) array('screenname' => $admin_screenname,
+                                      'password'   => $admin_password,
+                                      'fullname'   => $admin_fullname,
+                                      'email'      => $admin_email));
+}
+
 
 ?>

@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Fri Sep 15 16:05:52 2023
- *  Last Modified : <230915.1612>
+ *  Last Modified : <230915.2106>
  *
  *  Description	
  *
@@ -47,7 +47,7 @@
 
 require_once(dirname(__FILE__) . '/officials-load.php');
 
-if (!Officials::is_logged_in()) {
+if (!Officials_User::is_logged_in()) {
   header('Location: '.BASEURL.'login.php?returnto='.urlencode($_SERVER['REQUEST_URI']));
   die();
 }

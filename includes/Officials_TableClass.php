@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sat Sep 16 16:55:57 2023
- *  Last Modified : <230917.1420>
+ *  Last Modified : <230917.1524>
  *
  *  Description	
  *
@@ -100,8 +100,8 @@ class Officials_List_Table {
     *                   Default empty
     */
   public function __construct( $plural = "", $singular = "" ) {
-    $args['plural']   = sanitize_key( $plural );
-    $args['singular'] = sanitize_key( $singular );
+    $args['plural']   = $this->sanitize_key( $plural );
+    $args['singular'] = $this->sanitize_key( $singular );
     $this->_args = $args;
   }
   /**
@@ -183,21 +183,21 @@ class Officials_List_Table {
     $input_id = $input_id . '-search-input';
     
     if ( ! empty( $_REQUEST['orderby'] ) ) {
-      echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
+      echo '<input type="hidden" name="orderby" value="' . $_REQUEST['orderby']  . '" />';
     }
     if ( ! empty( $_REQUEST['order'] ) ) {
-      echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
+      echo '<input type="hidden" name="order" value="' .  $_REQUEST['order']  . '" />';
     }
     if ( ! empty( $_REQUEST['post_mime_type'] ) ) {
-      echo '<input type="hidden" name="post_mime_type" value="' . esc_attr( $_REQUEST['post_mime_type'] ) . '" />';
+      echo '<input type="hidden" name="post_mime_type" value="' . $_REQUEST['post_mime_type'] . '" />';
     }
     if ( ! empty( $_REQUEST['detached'] ) ) {
-      echo '<input type="hidden" name="detached" value="' . esc_attr( $_REQUEST['detached'] ) . '" />';
+      echo '<input type="hidden" name="detached" value="' .  $_REQUEST['detached'] . '" />';
     }
   ?>
   <p class="search-box">
-  <label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo $text; ?>:</label>
-  <input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php _admin_search_query(); ?>" />
+  <label class="screen-reader-text" for="<?php echo  $input_id ; ?>"><?php echo $text; ?>:</label>
+  <input type="search" id="<?php echo  $input_id ; ?>" name="s" value="<?php _admin_search_query(); ?>" />
   <?php submit_button( $text, '', '', false, array( 'id' => 'search-submit' ) ); ?>
   </p>
   <?php
@@ -250,26 +250,26 @@ class Officials_List_Table {
       return;
     }
     
-    echo '<label for="bulk-action-selector-' . esc_attr( $which ) . '" class="screen-reader-text">' .
+    echo '<label for="bulk-action-selector-' .  $which . '" class="screen-reader-text">' .
     'Select bulk action' .
     '</label>';
-    echo '<select name="action' . $two . '" id="bulk-action-selector-' . esc_attr( $which ) . "\">\n";
+    echo '<select name="action' . $two . '" id="bulk-action-selector-' . $which . "\">\n";
     echo '<option value="-1">' . __( 'Bulk actions' ) . "</option>\n";
     
     foreach ( $this->_actions as $key => $value ) {
       if ( is_array( $value ) ) {
-        echo "\t" . '<optgroup label="' . esc_attr( $key ) . '">' . "\n";
+        echo "\t" . '<optgroup label="' . $key . '">' . "\n";
         
         foreach ( $value as $name => $title ) {
           $class = ( 'edit' === $name ) ? ' class="hide-if-no-js"' : '';
           
-          echo "\t\t" . '<option value="' . esc_attr( $name ) . '"' . $class . '>' . $title . "</option>\n";
+          echo "\t\t" . '<option value="' . $name . '"' . $class . '>' . $title . "</option>\n";
         }
         echo "\t" . "</optgroup>\n";
       } else {
         $class = ( 'edit' === $key ) ? ' class="hide-if-no-js"' : '';
         
-        echo "\t" . '<option value="' . esc_attr( $key ) . '"' . $class . '>' . $value . "</option>\n";
+        echo "\t" . '<option value="' . $key . '"' . $class . '>' . $value . "</option>\n";
       }
     }
     
@@ -368,6 +368,15 @@ class Officials_List_Table {
     }
     return (int) $per_page;
   }
+  private function sanitize_key( $key ) {
+    $sanitized_key = '';
+    
+    if ( is_scalar( $key ) ) {
+      $sanitized_key = strtolower( $key );
+      $sanitized_key = preg_replace( '/[^a-z0-9_\-]/', '', $sanitized_key );
+    }
+    return $sanitized_key;
+  }
   private function esc_url( $url ) {
     $original_url = $url;
     
@@ -454,7 +463,7 @@ class Officials_List_Table {
       }
     }
     
-    $ret = _http_build_query( $qs, null, '&', '', false );
+    $ret = http_build_query( $qs, "", '&' );
     $ret = trim( $ret, '?' );
     $ret = preg_replace( '#=(&|$)#', '$1', $ret );
     $ret = $protocol . $base . $ret . $frag;
@@ -498,7 +507,7 @@ class Officials_List_Table {
     
     $output = '<span class="displaying-num">' . 
               sprintf($total_items==1?'%s item':'%s items',
-                      number_format_i18n( $total_items ) ) . '</span>';
+                      number_format( $total_items ) ) . '</span>';
     
     $current              = $this->get_pagenum();
     $removable_query_args = array(
@@ -599,7 +608,7 @@ class Officials_List_Table {
                                    );
     }
     
-    $html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
+    $html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format( $total_pages ) );
     
     $page_links[] = $total_pages_before . sprintf('%s of %s',
                                                   $html_current_page,
@@ -614,7 +623,7 @@ class Officials_List_Table {
                               "<span class='screen-reader-text'>%s</span>" .
                               "<span aria-hidden='true'>%s</span>" .
                               '</a>',
-                              $this->esc_url( add_query_arg( 'paged', min( $total_pages, $current + 1 ), $current_url ) ),
+                              $this->esc_url( $this->add_query_arg( 'paged', min( $total_pages, $current + 1 ), $current_url ) ),
                               'Next page',
                               '&rsaquo;'
                               );
@@ -974,7 +983,7 @@ class Officials_List_Table {
         }
         
         // Print an 'abbr' attribute if a value is provided via get_sortable_columns().
-        $abbr_attr = $abbr ? ' abbr="' . esc_attr( $abbr ) . '"' : '';
+        $abbr_attr = $abbr ? ' abbr="' . $abbr . '"' : '';
         
         $column_display_name = sprintf(
                                        '<a href="%1$s">' .
@@ -985,7 +994,7 @@ class Officials_List_Table {
                                        '</span>' .
                                        '%3$s' .
                                        '</a>',
-                                       $this->esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ),
+                                       $this->esc_url( $this->add_query_arg( compact( 'orderby', 'order' ), $current_url ) ),
                                        $column_display_name,
                                        $order_text
                                        );
@@ -1127,7 +1136,7 @@ class Officials_List_Table {
   protected function get_table_classes() {
     $mode = get_user_setting( 'posts_list_mode', 'list' );
     
-    $mode_class = esc_attr( 'table-view-' . $mode );
+    $mode_class = 'table-view-' . $mode;
     
     return array( 'widefat', 'fixed', 'striped', $mode_class, $this->_args['plural'] );
   }
@@ -1140,7 +1149,7 @@ class Officials_List_Table {
     */
   protected function display_tablenav( $which ) {
   ?>
-  <div class="tablenav <?php echo esc_attr( $which ); ?>">
+  <div class="tablenav <?php echo $which; ?>">
     
     <?php if ( $this->has_items() ) : ?>
     <div class="alignleft actions bulkactions">
@@ -1240,7 +1249,7 @@ class Officials_List_Table {
         * Comments column uses HTML in the display name with screen reader text.
         * Strip tags to get closer to a user-friendly string.
         */
-      $data = 'data-colname="' . esc_attr( $column_display_name ) . '"';
+      $data = 'data-colname="' . $column_display_name . '"';
       
       $attributes = "class='$classes' $data";
       
@@ -1297,3 +1306,4 @@ class Officials_List_Table {
   
   
 ?>
+

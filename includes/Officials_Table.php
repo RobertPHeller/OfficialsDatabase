@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sun Sep 17 14:21:34 2023
- *  Last Modified : <230917.1456>
+ *  Last Modified : <230917.1459>
  *
  *  Description	
  *
@@ -43,7 +43,7 @@
 
 require_once(INCPATH . 'Officials_TableClass.php');
 
-class Officials_Table extends Officials_TableClass {
+class Officials_Table extends Officials_List_Table {
   function __construct() {
     parent::__construct("Official", "Officials");
   }

@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Fri Sep 15 16:15:04 2023
- *  Last Modified : <230915.2114>
+ *  Last Modified : <230917.1446>
  *
  *  Description	
  *
@@ -62,7 +62,7 @@
 
   require_once( INCPATH . 'common_functions.php' );
   require_once( INCPATH . 'profile_functions.php' );
-  
+  require_once( INCPATH . 'Officials_Table.php' );  
 
   require_once( INCPATH . 'page_top.php' );
   require_once( INCPATH . 'navigation_bar.php' );

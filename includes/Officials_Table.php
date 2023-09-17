@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sun Sep 17 14:21:34 2023
- *  Last Modified : <230917.1443>
+ *  Last Modified : <230917.1456>
  *
  *  Description	
  *
@@ -44,6 +44,9 @@
 require_once(INCPATH . 'Officials_TableClass.php');
 
 class Officials_Table extends Officials_TableClass {
+  function __construct() {
+    parent::__construct("Official", "Officials");
+  }
   public function get_columns() {
     return array(
                  'cb'              => '<input type="checkbox" />',
@@ -63,5 +66,6 @@ class Officials_Table extends Officials_TableClass {
   
 } 
 
+$officials = new Officials_Table();
 
 ?>

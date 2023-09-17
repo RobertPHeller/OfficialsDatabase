@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Fri Sep 15 16:05:52 2023
- *  Last Modified : <230916.1023>
+ *  Last Modified : <230917.1457>
  *
  *  Description	
  *
@@ -56,7 +56,10 @@ require_once(INCPATH . 'officials-head.php' );?>
 <body <?php officials_body_class(); ?> >
 <?php officials_page_top(); ?>
 <?php officials_navigation_bar(); ?>
+<h2>Officials</h2>
 <?php
+$message = $officials->prepare_items();
+$officials->display();
 ?>
 <?php officials_footer(); ?>
 </body></html>

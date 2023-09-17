@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sat Sep 16 16:55:57 2023
- *  Last Modified : <230917.1524>
+ *  Last Modified : <230917.1630>
  *
  *  Description	
  *
@@ -254,7 +254,7 @@ class Officials_List_Table {
     'Select bulk action' .
     '</label>';
     echo '<select name="action' . $two . '" id="bulk-action-selector-' . $which . "\">\n";
-    echo '<option value="-1">' . __( 'Bulk actions' ) . "</option>\n";
+    echo '<option value="-1">' . 'Bulk actions' . "</option>\n";
     
     foreach ( $this->_actions as $key => $value ) {
       if ( is_array( $value ) ) {
@@ -275,7 +275,7 @@ class Officials_List_Table {
     
     echo "</select>\n";
     
-    submit_button( __( 'Apply' ), 'action', '', false, array( 'id' => "doaction$two" ) );
+    submit_button( 'Apply', 'action', '', false, array( 'id' => "doaction$two" ) );
     echo "\n";
   }
 
@@ -466,7 +466,7 @@ class Officials_List_Table {
     $ret = http_build_query( $qs, "", '&' );
     $ret = trim( $ret, '?' );
     $ret = preg_replace( '#=(&|$)#', '$1', $ret );
-    $ret = $protocol . $base . $ret . $frag;
+    $ret = $base . $ret . $frag;
     $ret = rtrim( $ret, '?' );
     $ret = str_replace( '?#', '#', $ret );
     return $ret;
@@ -749,7 +749,7 @@ class Officials_List_Table {
     * @return string The name of the primary column.
     */
   protected function get_primary_column_name() {
-    $columns = get_column_headers( $this->screen );
+    $columns = $this->get_columns( );
     $default = $this->get_default_primary_column_name();
     
     /*
@@ -803,8 +803,8 @@ class Officials_List_Table {
       return $this->_column_headers;
     }
     
-    $columns = get_column_headers( $this->screen );
-    $hidden  = get_hidden_columns( $this->screen );
+    $columns = $this->get_columns( );
+    $hidden  = $this->get_hidden_columns( );
     
     $sortable_columns = $this->get_sortable_columns();
     /**
@@ -875,8 +875,8 @@ class Officials_List_Table {
   public function print_column_headers( $with_id = true ) {
     list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
     
-    $current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-    $current_url = remove_query_arg( 'paged', $current_url );
+    $current_url = $_SERVER['REQUEST_URI'];
+    $current_url = $this->remove_query_arg( 'paged', $current_url );
     
     // When users click on a column header to sort by other columns.
     if ( isset( $_GET['orderby'] ) ) {
@@ -899,7 +899,7 @@ class Officials_List_Table {
       $columns['cb']     = '<label class="label-covers-full-cell" for="cb-select-all-' . $cb_counter . '">' .
       '<span class="screen-reader-text">' .
       /* translators: Hidden accessibility text. */
-      __( 'Select All' ) .
+      'Select All'.
       '</span>' .
       '</label>' .
       '<input id="cb-select-all-' . $cb_counter . '" type="checkbox" />';
@@ -972,9 +972,9 @@ class Officials_List_Table {
           $class[] = 'desc' === $order ? 'asc' : 'desc';
           
           /* translators: Hidden accessibility text. */
-          $asc_text = __( 'Sort ascending.' );
+          $asc_text = 'Sort ascending.';
           /* translators: Hidden accessibility text. */
-          $desc_text  = __( 'Sort descending.' );
+          $desc_text  = 'Sort descending.';
           $order_text = 'asc' === $order ? $asc_text : $desc_text;
         }
         
@@ -1073,9 +1073,9 @@ class Officials_List_Table {
           */
         if ( $current_orderby === $orderby ) {
           /* translators: Hidden accessibility text. */
-          $asc_text = __( 'Ascending.' );
+          $asc_text = 'Ascending.';
           /* translators: Hidden accessibility text. */
-          $desc_text  = __( 'Descending.' );
+          $desc_text  = 'Descending.';
           $order_text = 'asc' === $current_order ? $asc_text : $desc_text;
           echo '<caption class="screen-reader-text">' . $orderby_text . ' ' . $order_text . '</caption>';
           
@@ -1095,7 +1095,7 @@ class Officials_List_Table {
     
     $this->display_tablenav( 'top' );
     
-    $this->screen->render_screen_reader_content( 'heading_list' );
+    //$this->screen->render_screen_reader_content( 'heading_list' );
   ?>
   <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
     <?php $this->print_table_description(); ?>
@@ -1134,7 +1134,7 @@ class Officials_List_Table {
     * @return string[] Array of CSS classes for the table tag.
     */
   protected function get_table_classes() {
-    $mode = get_user_setting( 'posts_list_mode', 'list' );
+    $mode =  'list';
     
     $mode_class = 'table-view-' . $mode;
     
@@ -1253,6 +1253,7 @@ class Officials_List_Table {
       
       $attributes = "class='$classes' $data";
       
+      file_put_contents("php://stderr","*** Officials_List_Table::single_row_columns(): column_name is $column_name\n");
       if ( 'cb' === $column_name ) {
         echo '<th scope="row" class="check-column">';
         echo $this->column_cb( $item );
@@ -1293,7 +1294,7 @@ class Officials_List_Table {
   protected function handle_row_actions( $item, $column_name, $primary ) {
     return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
     /* translators: Hidden accessibility text. */
-    __( 'Show more details' ) .
+    'Show more details'.
     '</span></button>' : '';
   }
   

@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sun Sep 17 14:21:34 2023
- *  Last Modified : <230917.1459>
+ *  Last Modified : <230917.1632>
  *
  *  Description	
  *
@@ -59,9 +59,29 @@ class Officials_Table extends Officials_List_Table {
                  'office'          => 'Position'
                  );
   }
+  public function get_hidden_columns() { return array(); }
+  public function get_primary_column() {
+    return 'name';
+  }
+  protected function column_default( $item, $column_name ) {
+    return $item[$column_name];
+  }
+    
+  protected function column_cb( $item ) {
+    return '<input type="checkbox" name="checked[]" value="'.$item['id'].'" />';
+  }
+  
   public function prepare_items() {
-    $this->items = array();
-    $this->set_pagination_args(0, 0, 10);
+    $this->items = array(array('id' => 1,
+                               'name' => "Foo",
+                               'ethicsexpires' => "1969-01-01",
+                               'termends' => "1969-01-01",
+                               'swornindate' => "1969-01-01",
+                               'email' => "foo@gmail.com",
+                               'telephone' => '978-544-1234',
+                               'office' => 1)
+                         );
+    $this->set_pagination_args(1, 0, 10);
   }
   
 } 

@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Mon Sep 18 11:41:19 2023
- *  Last Modified : <230918.1337>
+ *  Last Modified : <230918.1439>
  *
  *  Description	
  *
@@ -102,9 +102,9 @@ class Offices_Table extends Officials_List_Table {
       $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `offices` WHERE %i LIKE %s order by %i $order",$field,'%'.$search.'%',$orderby);
     }
     $result = $officials_database->queryMySQL($sql);
-    $items = $result->fetch_all(MYSQLI_ASSOC);
+    $this->items = $result->fetch_all(MYSQLI_ASSOC);
     $result->free();
-    $this->set_pagination_args(count($items), 0, $per_page);
+    $this->set_pagination_args(count($this->items), 0, $per_page);
   }
   public function get_per_page()
   {
@@ -147,17 +147,18 @@ class Offices_Table extends Officials_List_Table {
     }
   }
   function prepare_one_item() {
+    global $officials_database;
     $message = '';
     if ( isset($_REQUEST['addoffice']) ) {
       $message = $this->checkiteminform(0);
       $item    = $this->getitemfromform(0);
       if ($message == '') {
-        $officials_database->insertMySQL('offices',
-                                         array('name' => $item['name'],
-                                               'iselected' => $item['iselected'],
-                                               'officalemail' => $item['officalemail'],
-                                               'officetelephone' => $item['officetelephone']),
-                                         array('%s',"%d",'%s','%s'));
+        $r = $officials_database->insertMySQL('offices',
+                                              array('name' => $item['name'],
+                                                    'iselected' => $item['iselected'],
+                                                    'officalemail' => $item['officalemail'],
+                                                    'officetelephone' => $item['officetelephone']),
+                                              array('%s',"%d",'%s','%s'));
         $item['id'] = $officials_database->insert_id();
         $this->viewmode = 'edit';
         $this->viewid = $item['id'];
@@ -167,13 +168,13 @@ class Offices_Table extends Officials_List_Table {
       $message = $this->checkiteminform($_REQUEST['id']);
       $item    = $this->getitemfromform($_REQUEST['id']);
       if ($message == '') {
-        $officials_database->replaceMySQL('offices',
-                                          array('id' => $item['id'],
-                                                'name' => $item['name'],
-                                                'iselected' => $item['iselected'],
-                                                'officalemail' => $item['officalemail'],
-                                                'officetelephone' => $item['officetelephone']),
-                                          array("%d",'%s',"%d",'%s','%s'));
+        $r = $officials_database->replaceMySQL('offices',
+                                               array('id' => $item['id'],
+                                                     'name' => $item['name'],
+                                                     'iselected' => $item['iselected'],
+                                                     'officalemail' => $item['officalemail'],
+                                                     'officetelephone' => $item['officetelephone']),
+                                               array("%d",'%s',"%d",'%s','%s'));
         $this->viewmode = 'edit';
         $this->viewid = $item['id'];
         $this->viewitem = $item;
@@ -221,8 +222,61 @@ class Offices_Table extends Officials_List_Table {
   
   function display_one_item_form()
   {
-    
-  }
+  ?><table class="form-table">
+    <tr valign="top">
+      <th scope="row"><label for="id" style="width:20%;">Id</label></th>
+      <td><input id="id" name="id" style="width:75%;" maxlength="10"
+         value="<?php echo $this->viewid; ?>" readonly="readonly"/></td></tr>
+    <tr valign="top">
+      <th scope="row"><label for="name" style="width:20%;">Name</label></th>
+      <td><input id="name" name="name" style="width:75%;" maxlength="64"
+         value="<?php echo stripslashes($this->viewitem['name']); ?>" /></td></tr>
+    <tr valign="top">
+      <th scope="row"><label for="iselected" style="width:20%;">Is Elected?</label></th>
+      <td><select name="iselected" id="iselected">
+          <option value="1" <?php if ($this->viewitem['iselected']) echo 'selected="selected"'; ?>>Yes</option>
+          <option value="0" <?php if (!$this->viewitem['iselected']) echo 'selected="selected"'; ?>>No</option></select></td></tr>
+    <tr valign="top">
+      <th scope="row"><label for="officalemail" style="width:20%;">Office E-Mail</label></th>
+      <td><input id="officalemail" name="officalemail" style="width:75%;" 
+         maxlength="100" value="<?php echo stripslashes($this->viewitem['officalemail']); ?>" /></td></tr>
+    <tr valign="top">
+      <th scope="row"><label for="officetelephone" style="width:20%;">Office Telephone</label></th>
+      <td><input id="officetelephone" name="officetelephone" style="width:75%;" 
+         maxlength="100" value="<?php echo stripslashes($this->viewitem['officetelephone']); ?>" /></td></tr>
+  </table>
+  <p>
+  <?php switch($this->viewmode) {
+    case 'add':
+      ?><input type="submit" name="addoffice" class="button-primary" value="Add New Office" /><?php
+       break;
+     case 'edit':
+     ?><input type="submit" name="updateoffice" class="button-primary" value="Update Item" /><?php
+      break;
+    } ?>
+  </p><?php
+           
+ }
+ 
+ function checkiteminform($id)
+ {
+   $result = '';
+   if ($_REQUEST['name'] == '') {
+     $result .= '<br /><span id="error">'.'Name is invalid'.'</span>';
+   }
+   return $result;
+ }
+ function getitemfromform($id)
+ {
+   global $officials_database;
+   $item = array ('id' => $id,
+                  'name' => $officials_database->sanitizeStringNoTagsHE($_REQUEST['name']),
+                  'iselected' => $_REQUEST['iselected'],
+                  'officalemail' => $officials_database->sanitizeStringNoTagsHE($_REQUEST['officalemail']),
+                  'officetelephone' => $officials_database->sanitizeStringNoTagsHE($_REQUEST['officetelephone']));
+   return $item;
+ }
+ 
         
     
 } 

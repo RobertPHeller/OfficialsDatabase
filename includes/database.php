@@ -316,7 +316,7 @@ class Officials_Database {
           $value = '';
         }
         
-        $args_escaped[] = $this->_real_escape( $value );
+        $args_escaped[] = mysqli_real_escape_string( $this->db, $value );
       }
     }
     
@@ -391,7 +391,7 @@ class Officials_Database {
     
     $sql = "$type INTO `$table` ($fields) VALUES ($formats)";
     
-    return $this->queryMySQL( $this->prepareMySQL( $sql, $values ) );
+    return $this->queryMySQL( $this->prepareQueryMySQL( $sql, $values ) );
   }
   private function createTable($name, $query)
   {

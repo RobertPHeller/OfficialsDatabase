@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sat Sep 16 16:55:57 2023
- *  Last Modified : <230917.1630>
+ *  Last Modified : <230918.1448>
  *
  *  Description	
  *
@@ -197,8 +197,8 @@ class Officials_List_Table {
   ?>
   <p class="search-box">
   <label class="screen-reader-text" for="<?php echo  $input_id ; ?>"><?php echo $text; ?>:</label>
-  <input type="search" id="<?php echo  $input_id ; ?>" name="s" value="<?php _admin_search_query(); ?>" />
-  <?php submit_button( $text, '', '', false, array( 'id' => 'search-submit' ) ); ?>
+  <input type="search" id="<?php echo  $input_id ; ?>" name="s" value="" />
+  <input type="submit" id="search-submit" value="<?php echo $text; ?>" name="submit" />
   </p>
   <?php
   }

@@ -61,10 +61,14 @@ class Officials_Database {
     }
   }
 
+  function insert_id () {
+    return mysqli_insert_id( $this->db );
+  }
+  
   function queryMySQL($query)
   {
-      $result = $this->db->query($query) or die($this->db->error."\n".$query);
-      return $result;
+    $result = $this->db->query($query) or die($this->db->error."\n".$query);
+    return $result;
   }
   
   /**
@@ -319,6 +323,75 @@ class Officials_Database {
     $query = vsprintf( $query, $args_escaped );
     
     return $query;
+  }
+  public function insertMySQL($table, $data, $format)
+  {
+    return $this->_insert_replace_helper( $table, $data, $format, 'INSERT' );
+  }
+  public function replaceMySQL($table, $data, $format)
+  {
+    return $this->_insert_replace_helper( $table, $data, $format, 'REPLACE' );
+  }
+  private function process_field_formats( $data, $format ) {
+    $formats          = (array) $format;
+    $original_formats = $formats;
+    
+    foreach ( $data as $field => $value ) {
+      $value = array(
+                     'value'  => $value,
+                     'format' => '%s',
+                     );
+      
+      if ( ! empty( $format ) ) {
+        $value['format'] = array_shift( $formats );
+        if ( ! $value['format'] ) {
+          $value['format'] = reset( $original_formats );
+        }
+      }
+      
+      $data[ $field ] = $value;
+    }
+    
+    return $data;
+  }
+
+  
+  private function process_fields( $table, $data, $format ) {
+    $data = $this->process_field_formats( $data, $format );
+    if ( false === $data ) {
+      return false;
+    }
+    
+    return $data;
+  }
+  private function _insert_replace_helper( $table, $data, $format, $type = 'INSERT' ) {
+    if ( ! in_array( strtoupper( $type ), array( 'REPLACE', 'INSERT' ), true ) ) {
+      return false;
+    }
+    
+    $data = $this->process_fields( $table, $data, $format );
+    if ( false === $data ) {
+      return false;
+    }
+    
+    $formats = array();
+    $values  = array();
+    foreach ( $data as $value ) {
+      if ( is_null( $value['value'] ) ) {
+        $formats[] = 'NULL';
+        continue;
+      }
+      
+      $formats[] = $value['format'];
+      $values[]  = $value['value'];
+    }
+    
+    $fields  = '`' . implode( '`, `', array_keys( $data ) ) . '`';
+    $formats = implode( ', ', $formats );
+    
+    $sql = "$type INTO `$table` ($fields) VALUES ($formats)";
+    
+    return $this->queryMySQL( $this->prepareMySQL( $sql, $values ) );
   }
   private function createTable($name, $query)
   {

@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Mon Sep 18 11:41:19 2023
- *  Last Modified : <230918.1152>
+ *  Last Modified : <230918.1337>
  *
  *  Description	
  *
@@ -44,6 +44,10 @@
 require_once(INCPATH . 'Officials_TableClass.php');
 
 class Offices_Table extends Officials_List_Table {
+  var $viewmode = 'add';
+  var $viewitem;
+  var $viewid = 0;
+  
   function __construct() {
     parent::__construct("Office", "Offices");
   }
@@ -109,15 +113,118 @@ class Offices_Table extends Officials_List_Table {
   
   public function offices_page($page)
   {
-    $this->prepare_items();
+    $message = $this->prepare_items();
   ?><h2>Offices</h2>
+  <?php 
+    if ($message != '') {
+    ?><div id="message" class="update fade"><?php echo $message; ?></div><?php
+    } ?>
   <form method="post" action="<?php echo $page; ?>">
   <?php $this->search_box('Search Offices', 'offices');
         $this->display(); ?></form><?php
-    
-   
   }
   
+  
+  public function edit_office_page($page)
+  {
+    $message = $this->prepare_one_item();
+  ?><h2><?php echo $this->add_item_h2(); ?></h2>
+  <?php 
+    if ($message != '') {
+    ?><div id="message" class="update fade"><?php echo $message; ?></div><?php
+    } ?>
+  <form action="<?php echo $page; ?>" method="post">
+  <?php $this->display_one_item_form(); ?></form></div><?php
+  }
+  function add_item_h2()
+  {
+    switch ($this->viewmode) {
+    case 'edit':
+      return 'Edit Office';
+    case 'add':
+    default:
+      return 'Add Office';
+    }
+  }
+  function prepare_one_item() {
+    $message = '';
+    if ( isset($_REQUEST['addoffice']) ) {
+      $message = $this->checkiteminform(0);
+      $item    = $this->getitemfromform(0);
+      if ($message == '') {
+        $officials_database->insertMySQL('offices',
+                                         array('name' => $item['name'],
+                                               'iselected' => $item['iselected'],
+                                               'officalemail' => $item['officalemail'],
+                                               'officetelephone' => $item['officetelephone']),
+                                         array('%s',"%d",'%s','%s'));
+        $item['id'] = $officials_database->insert_id();
+        $this->viewmode = 'edit';
+        $this->viewid = $item['id'];
+        $this->viewitem = $item;
+      }
+    } else if ( isset($_REQUEST['updateoffice']) ) {
+      $message = $this->checkiteminform($_REQUEST['id']);
+      $item    = $this->getitemfromform($_REQUEST['id']);
+      if ($message == '') {
+        $officials_database->replaceMySQL('offices',
+                                          array('id' => $item['id'],
+                                                'name' => $item['name'],
+                                                'iselected' => $item['iselected'],
+                                                'officalemail' => $item['officalemail'],
+                                                'officetelephone' => $item['officetelephone']),
+                                          array("%d",'%s',"%d",'%s','%s'));
+        $this->viewmode = 'edit';
+        $this->viewid = $item['id'];
+        $this->viewitem = $item;
+      }
+    } else {
+      $this->viewmode = isset($_REQUEST['mode']) ? $_REQUEST['mode'] : 'add';
+      $this->viewid = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+      switch ($this->viewmode) {
+      case 'edit':
+        if ($this->viewid == 0) {$this->viewmode = 'add';} 
+        break;
+      case 'add':
+        $this->viewid = 0;
+        break;
+      default:
+        $this->viewmode = 'add';
+        $this->viewid = 0;
+        break;
+      }
+      if ($this->viewid == 0) {
+        $this->viewitem = array('id' => 0,
+                                'name' => '',
+                                'iselected' => 0,
+                                'officalemail' => '',
+                                'officetelephone' => '');
+      } else {
+        $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `offices` WHERE `id` = %d",$this->viewid);
+        $result = $officials_database->queryMySQL($sql);
+        if ($result->num_rows > 0) {
+          $this->viewitem = $result->fetch_assoc();
+        } else {
+          $this->viewmode = 'add';
+          $this->viewid = 0;
+          $this->viewitem = array('id' => 0,
+                                  'name' => '',
+                                  'iselected' => 0,
+                                  'officalemail' => '',
+                                  'officetelephone' => '');
+        }
+        $result->free();
+      }
+    }
+    return $message;
+  }
+  
+  function display_one_item_form()
+  {
+    
+  }
+        
+    
 } 
 
 $offices = new Offices_Table();

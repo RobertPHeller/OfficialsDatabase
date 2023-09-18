@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sat Sep 16 16:55:57 2023
- *  Last Modified : <230918.1448>
+ *  Last Modified : <230918.1633>
  *
  *  Description	
  *
@@ -328,9 +328,9 @@ class Officials_List_Table {
     
     $output .= '</div>';
     
-    $output .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
-    'Show more details' .
-    '</span></button>';
+    //$output .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
+    //'Show more details' .
+    //'</span></button>';
     
     return $output;
   }
@@ -1293,7 +1293,6 @@ class Officials_List_Table {
     */
   protected function handle_row_actions( $item, $column_name, $primary ) {
     return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' .
-    /* translators: Hidden accessibility text. */
     'Show more details'.
     '</span></button>' : '';
   }

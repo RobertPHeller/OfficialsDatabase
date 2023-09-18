@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Mon Sep 18 11:41:19 2023
- *  Last Modified : <230918.1439>
+ *  Last Modified : <230918.1644>
  *
  *  Description	
  *
@@ -62,7 +62,7 @@ class Offices_Table extends Officials_List_Table {
   }
   public function get_hidden_columns() { return array(); }
   public function get_primary_column() {
-    return 'name';
+    return null;
   }
   protected function column_default( $item, $column_name ) {
     return $item[$column_name];
@@ -79,13 +79,28 @@ class Offices_Table extends Officials_List_Table {
       return 'No';
     }
   }
+  protected function column_name ($item)
+  {
+    $id = $item['id'];
+    $actions = array(
+                     'edit' => '<a href="/newoffice.php?id='.$id.'&mode=edit">Edit</a>',
+                     'delete' => '<a href="/offices.php?deleteid='.$id.'">Delete</a>'
+                     );
+    return $item['name'].$this->row_actions($actions);
+  }
   public function prepare_items() {
     global $officials_database;
+    if (isset($_REQUEST['deleteid']))
+    {
+      $deleteid = $_REQUEST['deleteid'];
+      $sql = $officials_database->prepareQueryMySQL("DELETE FROM `offices` WHERE `id` = %d", $deleteid);
+      $result = $officials_database->queryMySQL($sql);
+    }
     // Deal with columns
     $columns = $this->get_columns();    // All of our columns
     $hidden  = array();         // Hidden columns [none]
     $sortable = $this->get_sortable_columns(); // Sortable columns
-    $this->_column_headers = array($columns,$hidden,$sortable); // Set up columns
+    $this->_column_headers = array($columns,$hidden,$sortable,null); // Set up columns
     
     $message = '';
     //$this->process_bulk_action();

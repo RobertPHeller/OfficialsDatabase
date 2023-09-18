@@ -9,7 +9,7 @@
  *  Author        : $Author$
  *  Created By    : Robert Heller
  *  Created       : Sun Sep 17 14:21:34 2023
- *  Last Modified : <230917.1632>
+ *  Last Modified : <230918.1047>
  *
  *  Description	
  *
@@ -72,16 +72,46 @@ class Officials_Table extends Officials_List_Table {
   }
   
   public function prepare_items() {
-    $this->items = array(array('id' => 1,
-                               'name' => "Foo",
-                               'ethicsexpires' => "1969-01-01",
-                               'termends' => "1969-01-01",
-                               'swornindate' => "1969-01-01",
-                               'email' => "foo@gmail.com",
-                               'telephone' => '978-544-1234',
-                               'office' => 1)
-                         );
-    $this->set_pagination_args(1, 0, 10);
+    global $officials_database;
+    // Deal with columns
+    $columns = $this->get_columns();    // All of our columns
+    $hidden  = array();         // Hidden columns [none]
+    $sortable = $this->get_sortable_columns(); // Sortable columns
+    $this->_column_headers = array($columns,$hidden,$sortable); // Set up columns
+    
+    $message = '';
+    //$this->process_bulk_action();
+    $search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
+    $field  = isset( $_REQUEST['f'] ) ? $_REQUEST['f'] : 'name'; 
+    $orderby = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : 'name';
+    if ( empty( $orderby ) ) $orderby = 'name';
+    $order = isset( $_REQUEST['order'] ) ? $_REQUEST['order'] : 'ASC'; 
+    if ( empty( $order ) ) $order = 'ASC';
+    $per_page = $this->get_per_page();
+    if ($search == '') {
+      $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `people` order by %i $order",$orderby);
+    } else {
+      $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `people` WHERE %i LIKE %s order by %i $order",$field,'%'.$search.'%',$orderby);
+    }
+    $result = $officials_database->queryMySQL($sql);
+    $items = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free();
+    $this->set_pagination_args(count($items), 0, $per_page);
+  }
+  public function get_per_page()
+  {
+    return 20;
+  }
+  
+  public function officials_page()
+  {
+    $this->prepare_items();
+  ?><h2>Officials</h2>
+  <form method="post" action="index.php">
+  <?php $this->search_box('Search Officials', 'officials');
+        $this->display(); ?></form><?php
+    
+   
   }
   
 } 

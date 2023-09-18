@@ -8,8 +8,8 @@
  *  Date          : $Date$
  *  Author        : $Author$
  *  Created By    : Robert Heller
- *  Created       : Fri Sep 15 16:15:04 2023
- *  Last Modified : <230918.1150>
+ *  Created       : Fri Sep 15 16:05:52 2023
+ *  Last Modified : <230918.1115>
  *
  *  Description	
  *
@@ -41,34 +41,21 @@
  *
  ****************************************************************************/
 
-   /*
-    * Load officials codebase.
-    */
+/*
+  * Main index file
+  */
 
-  define( 'ABSPATH', dirname(__FILE__) . '/' );
-  define( 'INCPATH', ABSPATH . 'includes/');
-  define( 'THEMEPATH', ABSPATH . 'theme/');
-  
-  if ( file_exists( ABSPATH . 'officials-config.php' ) ) {
-	require_once( ABSPATH . 'officials-config.php' );
-  } else {
-	// A config file doesn't exist!
-	require_once( INCPATH . 'die_no_config.php') ;
-  }
-  
-  define( 'THEMEURL', BASEURL .'theme/');
+require_once(dirname(__FILE__) . '/officials-load.php');
 
-  session_start();
+if (!Officials_User::is_logged_in()) {
+  header('Location: '.BASEURL.'login.php?returnto='.urlencode($_SERVER['REQUEST_URI']));
+  die();
+}
 
-  require_once( INCPATH . 'common_functions.php' );
-  require_once( INCPATH . 'profile_functions.php' );
-  require_once( INCPATH . 'Officials_Table.php' );  
-  require_once( INCPATH . 'Offices_Table.php' );  
-
-  require_once( INCPATH . 'page_top.php' );
-  require_once( INCPATH . 'navigation_bar.php' );
-  require_once( INCPATH . 'footer.php' );
-  require_once( INCPATH . 'registerlogin.php' );
-  
-
-?>
+require_once(INCPATH . 'officials-head.php' );?>
+<body <?php officials_body_class(); ?> >
+<?php officials_page_top(); ?>
+<?php officials_navigation_bar(); ?>
+<?php $officials->officials_page('officials.php'); ?>
+<?php officials_footer(); ?>
+</body></html>

@@ -10,7 +10,11 @@
      ?><!-- Navigation bar begin --><div id="navigation_bar">
      <ul id="navigation">
         <li><a href="<?php echo BASEURL; ?>" title="Home">Home</a></li>
-	<li><a href="<?php echo BASEURL . 'about.php'; ?>" title="About">About</a></li>
+	<li><a href="<?php echo BASEURL . 'officials.php'; ?>" title="Officials">Officials</a></li>
+	<li><a href="<?php echo BASEURL . 'newofficial.php'; ?>" title="New/Edit Official">New/Edit Official</a></li>
+	<li><a href="<?php echo BASEURL . 'offices.php'; ?>" title="Offices">Offices</a></li>
+	<li><a href="<?php echo BASEURL . 'newoffice.php'; ?>" title="New/Edit Office">New/Edit Office</a></li>
+        <li><a href="<?php echo BASEURL . 'about.php'; ?>" title="About">About</a></li>
         <li><a href="<?php echo BASEURL . 'USAGE.php'; ?>" title="Usage">Usage</a></li>
         <?php if (file_exists(THEMEPATH . "extra_navigation.php")) {
             @require_once(THEMEPATH . "extra_navigation.php");

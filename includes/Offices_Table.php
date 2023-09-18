@@ -8,8 +8,8 @@
  *  Date          : $Date$
  *  Author        : $Author$
  *  Created By    : Robert Heller
- *  Created       : Sun Sep 17 14:21:34 2023
- *  Last Modified : <230918.1149>
+ *  Created       : Mon Sep 18 11:41:19 2023
+ *  Last Modified : <230918.1152>
  *
  *  Description	
  *
@@ -43,20 +43,17 @@
 
 require_once(INCPATH . 'Officials_TableClass.php');
 
-class Officials_Table extends Officials_List_Table {
+class Offices_Table extends Officials_List_Table {
   function __construct() {
-    parent::__construct("Official", "Officials");
+    parent::__construct("Office", "Offices");
   }
   public function get_columns() {
     return array(
                  'cb'              => '<input type="checkbox" />',
-                 'name'            => 'Name',
-                 'ethicsexpires'   => 'Ethics Expired',
-                 'termends'        => 'Term Ends',
-                 'swornindate'     => 'Sworn In Date',
-                 'email'           => 'E-Mail',
-                 'telephone'       => 'Telephone',
-                 'office'          => 'Position'
+                 'name'            => 'Office Name',
+                 'iselected'       => 'Elected?',
+                 'officalemail'    => 'E-Mail',
+                 'officetelephone' => 'Telephone'
                  );
   }
   public function get_hidden_columns() { return array(); }
@@ -66,23 +63,18 @@ class Officials_Table extends Officials_List_Table {
   protected function column_default( $item, $column_name ) {
     return $item[$column_name];
   }
-  protected function column_office ($item)
-  {
-    $sql = $officials_database->prepareQueryMySQL("SELECT name FROM `offices` WHERE `id` = $d",$item['officeid']);
-    $result = $officials_database->queryMySQL($sql);
-    if ($result->num_rows == 0)
-    {
-      $office = '';
-    } else {
-      $office = $result->fetch_row()[0];
-    }
-    $result->free();
-    return $office;
-  }
   protected function column_cb( $item ) {
     return '<input type="checkbox" name="checked[]" value="'.$item['id'].'" />';
   }
-  
+  protected function column_iselected ($item)
+  {
+    if ($item['iselected'])
+    {
+      return 'Yes';
+    } else {
+      return 'No';
+    }
+  }
   public function prepare_items() {
     global $officials_database;
     // Deal with columns
@@ -101,9 +93,9 @@ class Officials_Table extends Officials_List_Table {
     if ( empty( $order ) ) $order = 'ASC';
     $per_page = $this->get_per_page();
     if ($search == '') {
-      $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `people` order by %i $order",$orderby);
+      $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `offices` order by %i $order",$orderby);
     } else {
-      $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `people` WHERE %i LIKE %s order by %i $order",$field,'%'.$search.'%',$orderby);
+      $sql = $officials_database->prepareQueryMySQL("SELECT * FROM `offices` WHERE %i LIKE %s order by %i $order",$field,'%'.$search.'%',$orderby);
     }
     $result = $officials_database->queryMySQL($sql);
     $items = $result->fetch_all(MYSQLI_ASSOC);
@@ -115,12 +107,12 @@ class Officials_Table extends Officials_List_Table {
     return 20;
   }
   
-  public function officials_page($page)
+  public function offices_page($page)
   {
     $this->prepare_items();
-  ?><h2>Officials</h2>
+  ?><h2>Offices</h2>
   <form method="post" action="<?php echo $page; ?>">
-  <?php $this->search_box('Search Officials', 'officials');
+  <?php $this->search_box('Search Offices', 'offices');
         $this->display(); ?></form><?php
     
    
@@ -128,6 +120,6 @@ class Officials_Table extends Officials_List_Table {
   
 } 
 
-$officials = new Officials_Table();
+$offices = new Offices_Table();
 
 ?>
